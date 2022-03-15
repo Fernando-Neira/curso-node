@@ -1,8 +1,8 @@
 const { Router } = require('express')
 const { check } = require('express-validator')
-const { usersPOST, usersGET } = require('../controllers/users.controller')
-const { isValidRole, emailNotExist } = require('../helpers/database-validators')
-const { fieldValidation } = require('../middlewares/fields-validation')
+const { usersPOST, usersGET, usersDELETE } = require('../controllers/users.controller')
+const { isValidRole, emailNotExist, userIdExist } = require('../helpers/database-validators')
+const { fieldValidation, jwtValidate, isAdminValidation, hasRole } = require('../middlewares')
 
 const router = Router()
 
@@ -15,7 +15,7 @@ router.put('/:id', [
     fieldValidation
 ], usersPOST)
 
-routes.post('/', [
+router.post('/', [
     check('name', 'El nombre es requerido').not().isEmpty(),
     check('email', 'El correo no es valido').isEmail(),
     check('password', 'La contraseña es requerida').isLength({ min: 6 }),
@@ -24,5 +24,14 @@ routes.post('/', [
     check('role').custom(isValidRole),
     fieldValidation
 ], usersPOST)
+
+router.delete('/:id', [
+    jwtValidate,
+    isAdminValidation,
+    hasRole('ADMIN_ROLE'),
+    check('id', 'No es un ID valido').isMongoId(),
+    check('id').custom(userIdExist),
+    fieldValidation
+], usersDELETE)
 
 module.exports = router
