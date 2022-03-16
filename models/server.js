@@ -9,7 +9,7 @@ class Server {
         this.port = process.env.PORT || 8080
         this.paths = {
             users: '/api/users',
-            auth: '/auth'
+            auth: '/api/auth'
         }
 
         this.connectDatabase()

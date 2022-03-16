@@ -11,4 +11,9 @@ router.post('/login', login, [
     fieldValidation
 ])
 
+router.post('/login-google', login, [
+    check('id_token', 'El id_token es necesario').not().isEmpty(),
+    fieldValidation
+])
+
 module.exports = router
