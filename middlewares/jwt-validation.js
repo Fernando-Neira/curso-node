@@ -12,7 +12,7 @@ const jwtValidate = async (req, res = response, next) => {
   }
 
   try {
-    
+
     const { uid } = jsonWebToken.verify(token, process.env.SECRET_JWT)
 
     const user = await User.findById(uid)

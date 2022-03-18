@@ -8,8 +8,8 @@ async function googleVerify(token) {
     idToken: token,
     audience: process.env.GOOGLE_CLIENT_ID
   })
-  
-  const {name, picture, email} = ticket.getPayload()
+
+  const { name, picture, email } = ticket.getPayload()
 
   return {
     name,

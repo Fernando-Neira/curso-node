@@ -6,7 +6,7 @@ const {
 } = require("../models/")
 
 const isValidRole = async (role = '') => {
-    const existRole = await Role.findOne({role})
+    const existRole = await Role.findOne({ role })
 
     if (!existRole) {
         throw new Error(`El rol: ${role}, no existe en la base de datos`)
@@ -15,7 +15,7 @@ const isValidRole = async (role = '') => {
 }
 
 const emailNotExist = async (email = '') => {
-    const existEmail = await User.findOne({email})
+    const existEmail = await User.findOne({ email })
 
     if (!existEmail) {
         throw new Error(`El email: ${email}, no existe en la base de datos`)

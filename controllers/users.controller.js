@@ -3,7 +3,7 @@ const bcryptjs = require('bcryptjs')
 const User = require('../models/user.model')
 
 const usersGET = (req = request, res = response) => {
-    
+
     const { limit = 5, from = 0 } = req.query
 
     /*const usuarios = await User.find({estado: true})
@@ -14,14 +14,14 @@ const usersGET = (req = request, res = response) => {
 */
 
     const [quantity, users] = Promise.all([
-        User.countDocuments({estado: true}),
-        User.find({estado: true})
-         .skip(from)
-         .limit(Number(limit))
+        User.countDocuments({ estado: true }),
+        User.find({ estado: true })
+            .skip(from)
+            .limit(Number(limit))
     ])
 
 
-    res.json({quantity, users})
+    res.json({ quantity, users })
 }
 
 const usersPOST = async (req = request, res = response) => {
@@ -45,7 +45,7 @@ const usersPOST = async (req = request, res = response) => {
 
     await user.save()
 
-    res.json({user})
+    res.json({ user })
 }
 
 const usersPUT = async (req = request, res = response) => {
@@ -59,20 +59,20 @@ const usersPUT = async (req = request, res = response) => {
     }
 
     const user = await User.findByIdAndUpdate(id, rest)
-    
-    res.json({user})
+
+    res.json({ user })
 
 }
 
 const usersDELETE = async (req = request, res = response) => {
 
     const { id } = req.params
-    
+
     //const user = await User.findByIdAndDelete(id)
-    
+
     const user = await User.findByIdAndUpdate(id, { status: false })
 
-    res.json({user})
+    res.json({ user })
 
 }
 

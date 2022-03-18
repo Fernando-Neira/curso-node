@@ -30,7 +30,7 @@ router.put('/', [
   fieldValidation
 ], updateProduct)
 
-router.delete('/:id',[
+router.delete('/:id', [
   jwtValidate,
   isAdminValidation,
   check('id', 'No es un id valido de mongo').isMongoId(),

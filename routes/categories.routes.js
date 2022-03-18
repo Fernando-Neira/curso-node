@@ -1,11 +1,11 @@
 const { Router } = require('express')
 const { check } = require('express-validator')
-const { 
-  createCategory, 
-  getCategories, 
-  getCategoryById, 
-  deleteCategory, 
-  updateCategory 
+const {
+  createCategory,
+  getCategories,
+  getCategoryById,
+  deleteCategory,
+  updateCategory
 } = require('../controllers/category.controller')
 const { categoryIdExist } = require('../helpers/database-validators')
 const { fieldValidation, jwtValidate, isAdminValidation } = require('../middlewares')
@@ -33,7 +33,7 @@ router.put('/', [
   fieldValidation
 ], updateCategory)
 
-router.delete('/:id',[
+router.delete('/:id', [
   jwtValidate,
   isAdminValidation,
   check('id', 'No es un id valido de mongo').isMongoId(),

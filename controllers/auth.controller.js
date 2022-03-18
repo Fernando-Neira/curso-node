@@ -6,54 +6,54 @@ const { googleVerify } = require("../helpers/google-jwt-validator");
 
 const login = async (req, res = response) => {
 
-    const { email, password } = req.body
+  const { email, password } = req.body
 
-    try {
+  try {
 
-      const user = await User.findOne({email})
+    const user = await User.findOne({ email })
 
-      if (!user) {
-        return res.status(400).json({
-          msg: 'Usuario o contraseNa incorrecto'
-        })
-      }
-
-      if (!user.status) {
-        return res.status(400).json({
-          msg: 'Usuario se encuentra deshabilitado'
-        })
-      }
-
-      const isValidPassword = bcryptjs.compareSync(password, user.password)
-
-      if (!isValidPassword) {
-        return res.status(400).json({
-          msg: 'Usuario o contraseNa incorrecto'
-        })
-      }
-
-      const token = await generateJWT(user.id)
-
-      res.json({
-        msg: 'Login oK',
-        user,
-        token
-      })
-    }catch (error) {
-      res.status(500).json({
-        msg: 'Error interno'
+    if (!user) {
+      return res.status(400).json({
+        msg: 'Usuario o contraseNa incorrecto'
       })
     }
+
+    if (!user.status) {
+      return res.status(400).json({
+        msg: 'Usuario se encuentra deshabilitado'
+      })
+    }
+
+    const isValidPassword = bcryptjs.compareSync(password, user.password)
+
+    if (!isValidPassword) {
+      return res.status(400).json({
+        msg: 'Usuario o contraseNa incorrecto'
+      })
+    }
+
+    const token = await generateJWT(user.id)
+
+    res.json({
+      msg: 'Login oK',
+      user,
+      token
+    })
+  } catch (error) {
+    res.status(500).json({
+      msg: 'Error interno'
+    })
+  }
 }
 
 const googleSignIn = async (req, res = response) => {
   const { id_token } = res.body
 
   try {
-    
-    const {email, name, picture} = await googleVerify(id_token)
 
-    const user = await User.findOne({email})
+    const { email, name, picture } = await googleVerify(id_token)
+
+    const user = await User.findOne({ email })
 
     if (!user) {
       const data = {
@@ -82,7 +82,7 @@ const googleSignIn = async (req, res = response) => {
       msg: 'Login oK',
       user,
       token
-    })   
+    })
 
   } catch (error) {
     res.json.status(400).body({
@@ -93,5 +93,5 @@ const googleSignIn = async (req, res = response) => {
 }
 
 module.exports = {
-    login
+  login
 }
